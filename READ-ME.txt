@@ -1,0 +1,73 @@
+=================================== LES VARIABLES D'ENVIRONEMENT ===
+
+HOME=%USERPROFILE% 
+	%USERPROFILE% est de fait votre vrai HOME et non pas z: dont personne n'a rien a foutre!
+	
+JAVA_HOME=<le dossier contenant le JDK> 
+	Il est préférable de poinoter sur un JDK plutôt que sur un JRE; Maven ne fonctionnera pas avec un simple JRE.
+	
+M2_HOME=<le dossier contenant Maven> 
+	Vous pouvez avoir plusieurs instance de Maven sur la machine, M2_HOME pointe sur l'installation à utiliser.
+	
+CATALINA_HOME=<le dossier contenant Tomcat>
+	Vous pouvez avoir plusieurs instance de Tomcat sur la machine, CATALINA_HOME pointe sur l'installation à utiliser.
+
+PATH=%JAVA_HOME%\bin;%M2_HOME%\bin;%CATALINA_HOME%\bin
+	Cela permet d'ajouter toutes les commandes fournies par les outils précédents directement dans le path.
+	
+
+=================================== UTF 8 ===
+Attention à ce que tous les fichiers texte que vous écriviez soient encodés en UTF-8.
+NotePad++ permet de migrer les fichiers en UTF-8 tout en assurant la conversion des caractères.
+
+
+=================================== MAVEN ===
+Le plugin "versions" contiend plein de commandes pour gérer les versions des librairie et des plugins
+
+mvn versions:help
+
+mvn versions:display-property-updates
+mvn versions:display-dependency-updates
+mvn versions:display-plugin-updates
+
+mvn versions:use-latest-versions
+
+La commande pour changer le numero de version d'un projet/module.
+mvn versions:set -DnewVersion=<version>
+
+NOTE: La commande versions:set n'est pas récursive: 
+	changer le numéro de version d'un projet chapeau ne changera pas le numéro de version des modules.
+	pour ce faire il existe la commande:
+	release:update-versions -DautoVersionSubmodules=true -DdevelopmentVersion=<version>-SNAPSHOT
+
+	NOTE2: la commande release:update-versions n'est pas necessaire si les modules ne specifient
+	pas leur propre numéro de version.	Dans ce cas les sous-module reprennent automatiquement le
+	numéro de version du POM parent.
+	
+mvn versions:commit
+mvn versions:revert
+
+Le plugin "dependency" contiend plein de commandes pour gérer les dépendances
+http://maven.apache.org/plugins/maven-dependency-plugin/index.html
+
+mvn dependency:help
+mvn dependency:analyse-*
+mvn dependency:build-classpath
+mvn dependency:sources
+mvn dependency:list
+mvn dependency:tree
+
+la commande pour télécharger les sources des dépendances
+mvn dependency:sources
+
+la commande pour supprimer des entrées dans le repository local
+mvn dependency:purge-local-repository -DmanualInclude=groupId:artifactId -DresolutionFuzziness=groupId|artifactId|version
+
+mvn dependency:purge-local-repository -DmanualInclude=zc.study.struts1 -DresolutionFuzziness=groupId
+
+
+la commande pour lancer le serveur Tomcat
+mvn tomcat7:run
+
+La commande pour installer un jar manuellement dans le repo local
+http://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html

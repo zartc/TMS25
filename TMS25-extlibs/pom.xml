@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>zc.study.struts1</groupId>
+		<artifactId>TMS25</artifactId>
+		<version>1.0</version>
+	</parent>
+	
+	<artifactId>TMS25-extlibs</artifactId>
+	<packaging>pom</packaging>
+	
+	<description>External libraries that can not be hosted on a Maven repo</description>
+
+	<prerequisites>
+		<maven>3.2.3</maven>
+	</prerequisites>
+	
+	<build>
+		<plugins>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-install-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <id>install-oracle-jdbc</id>
+			            <goals>
+			                <goal>install-file</goal>
+			            </goals>
+			            <phase>install</phase>
+			            <configuration>
+						    <groupId>com.oracle</groupId>
+						    <artifactId>ojdbc7</artifactId>
+						    <version>12.1.0.2</version>
+
+			                <packaging>jar</packaging>
+			                <generatePom>true</generatePom>
+			                <createChecksum>true</createChecksum>
+			                <file>${project.basedir}/src/lib/ojdbc7.jar</file>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>

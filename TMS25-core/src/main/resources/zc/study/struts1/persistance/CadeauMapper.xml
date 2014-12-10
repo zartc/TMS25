@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="zc.study.struts1.persistance.CadeauMapper">
+
+	<cache />
+
+	<resultMap id="cadeauResultMap" type="Cadeau">
+		<result property="marche" column="S_MARCHE" />
+		<result property="lang" column="S_LANG" />
+		<result property="type" column="S_TYPE_ID" />
+		<result property="actif" column="I_ACTIF" />
+		<result property="libelle" column="S_LIBELLE" />
+	</resultMap>
+
+	<sql id="columns">S_MARCHE, S_LANG, S_TYPE_ID, I_ACTIF, S_LIBELLE</sql>
+
+	<select id="getAll" resultMap="cadeauResultMap">
+		select <include refid="columns" />
+		from "WADIS_CMS"."CMS_CRESCENDO_TYPE"
+		<where>
+			<choose>
+				<when test="name == 'actif'">
+					AND I_ACTIF = 1
+				</when>
+				<when test="name == 'inactif'">
+					AND I_ACTIF = 0
+				</when>
+			</choose>
+		</where>
+	</select>
+	
+	<select id="getByType" resultMap="cadeauResultMap">
+		select <include refid="columns" />
+		from "WADIS_CMS"."CMS_CRESCENDO_TYPE"
+		where S_MARCHE = #{marche}
+		  and S_LANG = #{langue}
+		  and S_TYPE_ID = #{type}
+		  and I_ACTIF = 1
+	</select>
+	
+	<select id="getByMarcheAndLangue" resultMap="cadeauResultMap">
+		select <include refid="columns" />
+		from "WADIS_CMS"."CMS_CRESCENDO_TYPE"
+		where S_MARCHE = #{marche}
+		  and S_LANG = #{langue}
+		  and I_ACTIF = 1
+	</select>
+
+	<insert id="insertCadeau" parameterType="Cadeau">
+		insert into "WADIS_CMS"."CMS_CRESCENDO_TYPE" (<include refid="columns" />)
+		values (#{marche}, #{lang}, #{type}, #{actif}, #{libelle})
+	</insert>
+	
+	<update id="updateCadeau" parameterType="Cadeau">
+	    update "WADIS_CMS"."CMS_CRESCENDO_TYPE"
+	       set S_LIBELLE = #{libelle}
+		where S_MARCHE = #{marche}
+		  and S_LANG = #{langue}
+		  and S_TYPE_ID = #{type}
+		  and I_ACTIF = #{actif}
+		  and S_LIBELLE = #{libelle}
+	</update>
+	
+	<update id="activateCadeau" parameterType="Cadeau">
+	    update "WADIS_CMS"."CMS_CRESCENDO_TYPE"
+	       set I_ACTIF = true
+		where S_MARCHE = #{marche}
+		  and S_LANG = #{langue}
+		  and S_TYPE_ID = #{type}
+		  and S_LIBELLE = #{libelle}
+	</update>
+	
+	<update id="inactivateCadeau" parameterType="Cadeau">
+	    update "WADIS_CMS"."CMS_CRESCENDO_TYPE"
+	       set I_ACTIF = false
+		where S_MARCHE = #{marche}
+		  and S_LANG = #{langue}
+		  and S_TYPE_ID = #{type}
+		  and S_LIBELLE = #{libelle}
+	</update>
+
+	<delete id="deleteCadeau" parameterType="Cadeau">
+		delete from "WADIS_CMS"."CMS_CRESCENDO_TYPE"
+		where S_MARCHE = #{marche}
+		  and S_LANG = #{langue}
+		  and S_TYPE_ID = #{type}
+		  and I_ACTIF = #{actif}
+	</delete>
+	
+</mapper>

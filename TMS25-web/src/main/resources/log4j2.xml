@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<Configuration status="WARN" verbose="false" monitorInterval="5">
+
+	<!-- [ALL] TRACE, DEBUG, INFO, WARN, ERROR, FATAL [OFF] -->
+
+	<Appenders>
+		<Console name="flow">
+			<filters>
+				<!-- Accept FLOW logEvents passthrough others logEvents -->
+				<MarkerFilter marker="FLOW" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+				<!-- Accept EXCEPTION logEvents, deny others -->
+				<MarkerFilter marker="EXCEPTION" onMatch="ACCEPT" onMismatch="DENY"/>
+			</filters>
+			<!-- this pattern outputs class name and method name - this is slow-->
+			<PatternLayout pattern="%d{ABSOLUTE} [FLOW ] %class{1.}.%method %msg %ex%n"/>
+		</Console>
+
+		<Console name="stdout" target="SYSTEM_OUT">
+			<filters>
+				<!-- filter out FLOW and EXCEPTION logEvents, NEUTRAL on others logEvents -->
+				<MarkerFilter marker="FLOW" onMatch="DENY" onMismatch="NEUTRAL"/>
+				<MarkerFilter marker="EXCEPTION" onMatch="DENY" onMismatch="NEUTRAL"/>
+			</filters>
+			<PatternLayout pattern="%d{ABSOLUTE} [%-5level] %40logger{5.} - %msg %ex%n"/>
+		</Console>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="zc.study.struts1" level="trace" />
+
+		<Root level="info">
+			<AppenderRef ref="stdout"/>
+			<AppenderRef ref="flow"/>
+		</Root>
+	</Loggers>
+
+</Configuration>
