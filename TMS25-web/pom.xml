@@ -85,12 +85,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
 		</dependency>
-			
-		<dependency>
-		    <groupId>com.oracle</groupId>
-		    <artifactId>ojdbc7</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -105,18 +99,8 @@
 			<artifactId>TMS25-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>TMS25-extlibs</artifactId>
-			<version>${project.version}</version>
-			<!-- Indicate that we want the TMS25-extlibs to be build before this project
-			type pom because the TMS25-extlibs project doesn't produce any jar -->
-			<type>pom</type>
-		</dependency>
 	</dependencies>
-		
-
+	
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		
@@ -141,5 +125,25 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>standalone-webapp</id>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>TMS25-extlibs</artifactId>
+					<version>${project.version}</version>
+					<!-- Indicate that we want the TMS25-extlibs to be build before this project
+					type pom because the TMS25-extlibs project doesn't produce any jar -->
+					<type>pom</type>
+				</dependency>
+				<dependency>
+				    <groupId>com.oracle</groupId>
+				    <artifactId>ojdbc7</artifactId>
+				</dependency>			
+			</dependencies>
+		</profile>
+	</profiles>
 
 </project>

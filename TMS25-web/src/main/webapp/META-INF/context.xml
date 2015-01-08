@@ -3,9 +3,7 @@
 
 <Context useNaming="true">
 
-	<!-- Define variables that are registered in the JDNI tree under java:comp/env/ -->
-	<!-- A resource-ref element with the same name defined in web.xml will override the one defined here -->
-	<!-- Specify a JDBC datasource -->
+	<!-- Specify JDBC datasources -->
 	<Resource name="jdbc/wadis-cms-database" type="javax.sql.DataSource" singleton="true"
 		auth="Container" username="wadis_cms" password="wadis"
 		driverClassName="oracle.jdbc.driver.OracleDriver"
@@ -23,7 +21,7 @@
 	
 	<!-- Tomcat-7 version : see: http://tomcat.apache.org/tomcat-7.0-doc/config/context.html#Virtual_webapp-->
 	<Resources className="org.apache.naming.resources.VirtualDirContext" 
-		extraResourcePaths="/=C:\\Users\\t048981\\Documents\\Wadis\\workspaces\\migration_was_tomcat\\wadis\\wadis-edr" />
+		extraResourcePaths="/=C:/Users/t048981/Documents/Wadis/workspaces/migration_was_tomcat/TMS25/TMS25-edr" />
 
 	<!-- Tomcat-8 version -->
 <!-- 	<Resources className="org.apache.catalina.webresources.StandardRoot"> -->

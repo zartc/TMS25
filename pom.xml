@@ -20,6 +20,12 @@
 	<prerequisites>
 		<maven>3.2.3</maven>
 	</prerequisites>
+	
+	<modules>
+ 		<module>TMS25-core</module>
+		<module>TMS25-web</module>
+<!-- 		<module>TMS25-distro</module> -->
+	</modules>
 
 	<properties>
 		<java.version>1.7</java.version>
@@ -142,12 +148,6 @@
 				<version>2.0</version>
 			</dependency>
 			
-			<dependency>
-			    <groupId>com.oracle</groupId>
-			    <artifactId>ojdbc7</artifactId>
-			    <version>12.1.0.2</version>
-			</dependency>			
-
 
 			<!-- testing -->
 			<dependency>
@@ -248,11 +248,33 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	<modules>
-		<module>TMS25-extlibs</module>
- 		<module>TMS25-core</module>
-		<module>TMS25-web</module>
-<!-- 		<module>TMS25-distro</module> -->
-	</modules>
+
+	<profiles>
+		<profile>
+			<id>m2e</id>
+			<!-- This profile is only activated when building in Eclipse with m2e -->
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>standalone-webapp</id>
+			<modules>
+				<module>TMS25-extlibs</module>
+			</modules>
+			<dependencyManagement>
+				<dependencies>
+					<dependency>
+					    <groupId>com.oracle</groupId>
+					    <artifactId>ojdbc7</artifactId>
+					    <version>12.1.0.2</version>
+					    <scope>runtime</scope>
+					</dependency>			
+				</dependencies>
+			</dependencyManagement>
+		</profile>
+	</profiles>
 </project>

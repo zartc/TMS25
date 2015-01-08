@@ -7,6 +7,7 @@
 
 	<display-name>TMS25-web</display-name>
 	
+	
 	<context-param>
 		<description></description>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
@@ -21,7 +22,20 @@
 		<param-name>javax.servlet.jsp.jstl.fmt.fallbackLocale</param-name>
 		<param-value>en</param-value>
 	</context-param>
-	
+
+
+	<resource-ref>
+		<res-ref-name>jdbc/wadis-database</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	<resource-ref>
+		<res-ref-name>jdbc/wadis-cms-database</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+  
+  
 	<!-- 
 	You must take particular care when using Log4j or any other logging framework within a Java EE web application.
 	Log4j must be "started" when the web application deploys and "shut down" when the web application undeploys.
