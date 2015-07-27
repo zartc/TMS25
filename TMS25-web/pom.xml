@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>zc.study.struts1.tms25</groupId>
+		<groupId>zc.study.tms25</groupId>
 		<artifactId>TMS25</artifactId>
 		<version>1.0</version>
 	</parent>
@@ -36,45 +37,45 @@
 			<artifactId>commons-collections4</artifactId>
 		</dependency>
 
-
 		<!-- servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 		</dependency>
-		
  		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
 
+		<!-- Stripes -->
+		<!-- 
+		<dependency>
+			<groupId>net.sourceforge.stripes</groupId>
+			<artifactId>stripes</artifactId>
+		</dependency>
+		 -->
 
 		<!-- Struts -->
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-core</artifactId>
 		</dependency>
-		
- 		<dependency>
+		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-extras</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-taglib</artifactId>
 		</dependency>
-		
 		<!-- <dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-tiles</artifactId>
 		</dependency> -->
-		
  		<!-- <dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-extras</artifactId>
 		</dependency> -->
-
 		<!-- <dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-el</artifactId>
@@ -99,12 +100,43 @@
 			<artifactId>TMS25-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>TMS25-extlibs</artifactId>
+			<version>${project.version}</version>
+			<!-- By indicating a direct dependance on the extlibs project we make sure that the 
+			TMS25-extlibs project will be build before this project. We use type pom because the  
+			TMS25-extlibs project doesn't install any artifact other than its own pom 
+			into the local repository -->
+			<type>pom</type>
+		</dependency>
 	</dependencies>
 	
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		
 		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<path>/</path>
+					<port>9999</port>
+					<contextFile>src/main/webapp/META-INF/context.xml</contextFile>
+					<enableNaming>true</enableNaming>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.oracle</groupId>
+						<artifactId>ojdbc7</artifactId>
+						<version>${ojdbc7.version}</version>
+					    <scope>runtime</scope>
+					</dependency>			
+				</dependencies>
+			</plugin>
+			
 			<!-- http://www.eclipse.org/jetty/documentation/9.2.2.v20140723/jetty-maven-plugin.html -->
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
@@ -117,33 +149,7 @@
 					</webApp>
 				</configuration>
 			</plugin>
-			
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>standalone-webapp</id>
-			<dependencies>
-				<dependency>
-					<groupId>${project.groupId}</groupId>
-					<artifactId>TMS25-extlibs</artifactId>
-					<version>${project.version}</version>
-					<!-- Indicate that we want the TMS25-extlibs to be build before this project
-					type pom because the TMS25-extlibs project doesn't produce any jar -->
-					<type>pom</type>
-				</dependency>
-				<dependency>
-				    <groupId>com.oracle</groupId>
-				    <artifactId>ojdbc7</artifactId>
-				</dependency>			
-			</dependencies>
-		</profile>
-	</profiles>
 
 </project>

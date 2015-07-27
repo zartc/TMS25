@@ -11,28 +11,29 @@ import org.apache.logging.log4j.Logger;
 
 import zc.study.struts1.domain.Cadeau;
 import zc.study.struts1.persistance.CadeauMapper;
-import zc.study.struts1.persistance.util.WadisCMS_DBUtil;
+import zc.study.struts1.persistance.util.TMS2_DBUtil;
 
+
+/**
+ * @author Pascal Jacob
+ */
 public class TestMyBatisAccess {
 	Logger logger = LogManager.getLogger();
 
+
 	public void testDBAccess() throws NamingException, SQLException {
 		logger.entry();
-		
-		SqlSession session = WadisCMS_DBUtil.getSession();
-		
-		try {
+
+		try (SqlSession session = TMS2_DBUtil.getSession()) {
 			CadeauMapper mapper = session.getMapper(CadeauMapper.class);
-			List<Cadeau> allCadeaux = mapper.getAll(CadeauMapper.Status.actif);
-			
-			logger.info("nb line returned: {}", allCadeaux.size());
-			for (Cadeau cadeau : allCadeaux) {
+			List<Cadeau> activeCadeaux = mapper.getByStatus(CadeauMapper.Status.actif);
+
+			logger.info("nb line returned: {}", activeCadeaux.size());
+			for (Cadeau cadeau : activeCadeaux) {
 				logger.info(cadeau);
 			}
-		} finally {
-			session.close();
 		}
-		
+
 		logger.exit();
 	}
 }

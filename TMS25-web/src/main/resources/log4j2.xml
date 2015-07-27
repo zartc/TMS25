@@ -3,7 +3,7 @@
 
 <Configuration status="WARN" verbose="false" monitorInterval="5">
 
-	<!-- [ALL] TRACE, DEBUG, INFO, WARN, ERROR, FATAL [OFF] -->
+	<!-- ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF -->
 
 	<Appenders>
 		<Console name="flow">
@@ -28,9 +28,9 @@
 	</Appenders>
 
 	<Loggers>
-		<Logger name="zc.study.struts1" level="trace" />
+		<Logger name="zc.study.struts1" level="TRACE" />
 
-		<Root level="info">
+		<Root level="INFO">
 			<AppenderRef ref="stdout"/>
 			<AppenderRef ref="flow"/>
 		</Root>

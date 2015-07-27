@@ -20,27 +20,33 @@ import java.util.List;
 
 import zc.study.struts1.domain.Cadeau;
 
+
 /**
- * @author t048981
+ * @author Pascal Jacob
  */
 public interface CadeauMapper {
 
-	enum Status {actif, inactif, all};
+	enum Status {
+		actif, inactif, all
+	};
+
+
+	List<Cadeau> getAll();
 	
-	List<Cadeau> getAll(Status status);
+	Cadeau getByRef(String ref);
+
+	List<Cadeau>  getByType(String type);
 	
-	Cadeau getByType(String marche, String langue, String type);
-	
-	Cadeau getByMarcheAndLangue(String marche, String langue, String type);
+	List<Cadeau>  getByStatus(Status status);
 
 	void insertCadeau(Cadeau cadeau);
 
 	void updateCadeau(Cadeau cadeau);
 
 	void activateCadeau(Cadeau cadeau);
-	
+
 	void inactivateCadeau(Cadeau cadeau);
-	
+
 	void deleteCadeau(Cadeau cadeau);
 }
 

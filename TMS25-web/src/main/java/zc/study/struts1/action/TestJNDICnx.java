@@ -15,20 +15,22 @@ import org.apache.commons.dbcp2.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 public class TestJNDICnx {
 	Logger logger = LogManager.getLogger();
+
 
 	public void testDBAccess() throws NamingException, SQLException {
 		logger.entry();
 
 		Connection connection = null;
 		Statement stmt = null;
-		
+
 		try {
 			connection = getConnection();
 			stmt = connection.createStatement();
-			
-			if(stmt.execute("select * from \"WADIS_CMS\".\"CMS_CRESCENDO_TYPE\"")) {
+
+			if (stmt.execute("select * from \"TMS1\".\"CADEAUX\"")) {
 				dumpData(stmt);
 			}
 		}
@@ -36,7 +38,7 @@ public class TestJNDICnx {
 			Utils.closeQuietly(stmt);
 			Utils.closeQuietly(connection);
 		}
-		
+
 		logger.exit();
 	}
 
@@ -48,12 +50,12 @@ public class TestJNDICnx {
 
 		try {
 			// call before r.next() see note 4 above in JDBC hints
-			ResultSetMetaData rm = rs.getMetaData();    
+			ResultSetMetaData rm = rs.getMetaData();
 
 			int count = rm.getColumnCount();
 			while (rs.next()) {
 				logger.info("data row");
-				for(int i = 1; i <= count; i++) {
+				for (int i = 1; i <= count; i++) {
 					logger.info("    [Column {} : {}] = {}", i, rm.getColumnName(i), rs.getString(i));
 				}
 			}
@@ -61,18 +63,18 @@ public class TestJNDICnx {
 		finally {
 			Utils.closeQuietly(rs);
 		}
-		
+
 		logger.exit();
 	}
-	
+
 	public Connection getConnection() throws NamingException, SQLException {
 		logger.entry();
-		
+
 		// Get DataSource
 		Context ctx = new InitialContext();
-		DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/wadis-cms-database");
+		DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/TMS1-database");
 		Connection cnx = ds.getConnection();
-		
+
 		return logger.exit(cnx);
 	}
 }

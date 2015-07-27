@@ -7,6 +7,7 @@ import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 
+
 /**
  * Dump a JNDI tree to the output.
  *
@@ -15,6 +16,7 @@ import javax.naming.NamingException;
 public class JNDITree {
 	private Context context = null;
 	private PrintStream out;
+
 
 	public JNDITree(Context context) throws NamingException {
 		this.context = context;
@@ -25,12 +27,13 @@ public class JNDITree {
 		this.out = out;
 		return this;
 	}
-	
+
 	public void printJNDITree(String ctxName) {
 		try {
 			NamingEnumeration<NameClassPair> list = context.list(ctxName);
 			printNE(list, ctxName);
-		} catch (NamingException e) {
+		}
+		catch (NamingException e) {
 			// ignore leaf node exception
 		}
 	}
@@ -38,7 +41,7 @@ public class JNDITree {
 	private void printNE(NamingEnumeration<?> ne, String parentctx)
 			throws NamingException {
 		while (ne.hasMoreElements()) {
-			NameClassPair next = (NameClassPair) ne.nextElement();
+			NameClassPair next = (NameClassPair)ne.nextElement();
 			out.println(indent() + next);
 			increaseIndent();
 
@@ -49,7 +52,9 @@ public class JNDITree {
 		}
 	}
 
+
 	private int indentLevel = 0;
+
 
 	private void increaseIndent() {
 		indentLevel += 4;

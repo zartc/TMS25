@@ -8,19 +8,22 @@
 		<package name="zc.study.struts1.domain" />
 	</typeAliases>
 	
-	<environments default="wadis">
-		<environment id="wadis">
+	<environments default="TMS1">
+	
+		<environment id="TMS1">
 			<transactionManager type="JDBC" />
 			<dataSource type="JNDI">
-				<property name="data_source" value="java:comp/env/jdbc/wadis-database" />
+				<property name="data_source" value="java:comp/env/jdbc/TMS1-database" />
 			</dataSource>
 		</environment>
-		<environment id="wadis-cms">
+		
+		<environment id="TMS2">
 			<transactionManager type="JDBC" />
 			<dataSource type="JNDI">
-				<property name="data_source" value="java:comp/env/jdbc/wadis-cms-database" />
+				<property name="data_source" value="java:comp/env/jdbc/TMS2-database" />
 			</dataSource>
 		</environment>
+		
 	</environments>
 	
 	<mappers>

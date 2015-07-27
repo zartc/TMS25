@@ -1,0 +1,39 @@
+INTRODUCTION
+------------
+Il existe des librairies qui ne sont pas hébergées dans des dépôts maven :
+
+ - Soit la licence qui accompagne la librairie est incompatible avec le fonctionnement automatique et anonyme des dépôts maven. 
+ - Soit la licence interdit purement et simplement l’hébergement et/ou la publication de la librairie à titre gratuit sur un dépôt ou un site à accès libre.
+ - Soit plus prosaïquement, l’équipe qui produit la librairie n’utilise
+   pas encore maven pour publier celle-ci sur le dépôt d’entreprise.
+
+Ce projet (`libs`) existe spécifiquement pour gérer ces cas de figures et fournir une solution transparente qui s’inscrit dans le flow  et l’esprit de maven.
+
+HOWTO :
+-------
+
+1. procurez vous la librairie auprès du fournisseur :
+	- Si vous êtes en relation directe avec le fournisseur : celui-ci peut générer la librairie pour vous et vous la fournir via une clef USB ou par email.
+	- Si vous n’êtes pas en relation directe avec le fournisseur : celui-ci fournit un moyen d’obtenir la librairie sur le média de son choix (téléchargement, CD) et en respectant un processus édité par lui. 
+         Cela peut impliquer :
+   		- de créer un compte puis de vous connecter à un site web marchand
+   		- d’accepter une licence d’utilisation
+   		- de payer pour obtenir la librairie
+2. Déposez la librairie dans le dossier src/lib
+3. Modifiez le pom.xml pour ajouter un element <execution> au plugin maven-install-plugin ; vous devrez inventer le groupeId,  l’artefactId et la version de toute pièce.
+4. Faites un mvn install et vérifiez dans la sortie console que votre librairie soit correctement copiée et installée dans votre dépôt local accompagnée d’un pom.xml généré par maven.
+5. Modifiez le pom.xml d’un module dépendant de cette librairie pour indiquer cette nouvelle dépendance en utilisant le groupeId,  l’artefactId et la version utilisé en 3. (N’oubliez pas mettre à jour la partie dependencyManagement du pom parent)
+6. Faites un mvn clean package et vérifiez dans la sortie console que maven trouve bien la dépendance dans votre dépôt locale.
+
+Vous pouvez maintenant inclure la librairie dans git pour que chaque développeur la récupère lors du git clone ou git pull
+
+- Si la licence qui accompagne la librairie vous interdit de stocker la librairie dans git alors vous pouvez indiquer ci-dessous la procédure pour obtenir la librairie.
+
+Ex :
+Ojdbc7.jar
+Driver oracle – L’obtention du driver est subordonnée à la lecture et a l’acceptation d’une licence d’utilisation propre à Oracle.
+Pour ce faire, l’utilisateur doit : 
+
+- posséder ou créer un compte OTN,
+- ouvrir la page de téléchargement du driver Ojdbc7.jar et lire la licence d’utilisation
+- accepter la licence d’utilisation en cliquant sur une boite à cocher.

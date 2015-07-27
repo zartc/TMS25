@@ -8,86 +8,75 @@
 	<cache />
 
 	<resultMap id="cadeauResultMap" type="Cadeau">
-		<result property="marche" column="S_MARCHE" />
-		<result property="lang" column="S_LANG" />
-		<result property="type" column="S_TYPE_ID" />
-		<result property="actif" column="I_ACTIF" />
-		<result property="libelle" column="S_LIBELLE" />
+		<result property="ref" column="REF" />
+		<result property="description" column="DESCR" />
+		<result property="libelle" column="LABEL" />
+		<result property="type" column="TYPE" />
+		<result property="actif" column="ACTIF" />
 	</resultMap>
 
-	<sql id="columns">S_MARCHE, S_LANG, S_TYPE_ID, I_ACTIF, S_LIBELLE</sql>
-
+	<sql id="columns">REF, DESCR, LABEL, TYPE, ACTIF</sql>
+	
 	<select id="getAll" resultMap="cadeauResultMap">
 		select <include refid="columns" />
-		from "WADIS_CMS"."CMS_CRESCENDO_TYPE"
-		<where>
-			<choose>
-				<when test="name == 'actif'">
-					AND I_ACTIF = 1
-				</when>
-				<when test="name == 'inactif'">
-					AND I_ACTIF = 0
-				</when>
-			</choose>
-		</where>
+		from "TMS1"."CADEAUX"
+	</select>
+	
+	<select id="getByRef" resultMap="cadeauResultMap">
+		select <include refid="columns" />
+		from "TMS1"."CADEAUX"
+		where REF = #{ref}
 	</select>
 	
 	<select id="getByType" resultMap="cadeauResultMap">
 		select <include refid="columns" />
-		from "WADIS_CMS"."CMS_CRESCENDO_TYPE"
-		where S_MARCHE = #{marche}
-		  and S_LANG = #{langue}
-		  and S_TYPE_ID = #{type}
-		  and I_ACTIF = 1
-	</select>
-	
-	<select id="getByMarcheAndLangue" resultMap="cadeauResultMap">
-		select <include refid="columns" />
-		from "WADIS_CMS"."CMS_CRESCENDO_TYPE"
-		where S_MARCHE = #{marche}
-		  and S_LANG = #{langue}
-		  and I_ACTIF = 1
+		from "TMS1"."CADEAUX"
+		where TYPE = #{type}
 	</select>
 
+	<select id="getByStatus" resultMap="cadeauResultMap">
+		select <include refid="columns" />
+		from "TMS1"."CADEAUX"
+		<where>
+			<choose>
+				<when test="name == 'actif'">
+					AND ACTIF = 1
+				</when>
+				<when test="name == 'inactif'">
+					AND ACTIF = 0
+				</when>
+			</choose>
+		</where>
+	</select>
+
+
+
 	<insert id="insertCadeau" parameterType="Cadeau">
-		insert into "WADIS_CMS"."CMS_CRESCENDO_TYPE" (<include refid="columns" />)
-		values (#{marche}, #{lang}, #{type}, #{actif}, #{libelle})
+		insert into "TMS1"."CADEAUX" (<include refid="columns" />)
+		values (#{ref}, #{description}, #{label}, #{type}, #{actif})
 	</insert>
 	
 	<update id="updateCadeau" parameterType="Cadeau">
-	    update "WADIS_CMS"."CMS_CRESCENDO_TYPE"
-	       set S_LIBELLE = #{libelle}
-		where S_MARCHE = #{marche}
-		  and S_LANG = #{langue}
-		  and S_TYPE_ID = #{type}
-		  and I_ACTIF = #{actif}
-		  and S_LIBELLE = #{libelle}
+	    update "TMS1"."CADEAUX"
+	       set LABEL = #{label}
+		where REF = #{ref}
 	</update>
 	
 	<update id="activateCadeau" parameterType="Cadeau">
-	    update "WADIS_CMS"."CMS_CRESCENDO_TYPE"
-	       set I_ACTIF = true
-		where S_MARCHE = #{marche}
-		  and S_LANG = #{langue}
-		  and S_TYPE_ID = #{type}
-		  and S_LIBELLE = #{libelle}
+	    update "TMS1"."CADEAUX"
+	       set ACTIF = 1
+		where REF = #{ref}
 	</update>
 	
 	<update id="inactivateCadeau" parameterType="Cadeau">
-	    update "WADIS_CMS"."CMS_CRESCENDO_TYPE"
-	       set I_ACTIF = false
-		where S_MARCHE = #{marche}
-		  and S_LANG = #{langue}
-		  and S_TYPE_ID = #{type}
-		  and S_LIBELLE = #{libelle}
+	    update "TMS1"."CADEAUX"
+	       set ACTIF = 0
+		where REF = #{ref}
 	</update>
 
 	<delete id="deleteCadeau" parameterType="Cadeau">
-		delete from "WADIS_CMS"."CMS_CRESCENDO_TYPE"
-		where S_MARCHE = #{marche}
-		  and S_LANG = #{langue}
-		  and S_TYPE_ID = #{type}
-		  and I_ACTIF = #{actif}
+		delete from "TMS1"."CADEAUX"
+		where REF = #{ref}
 	</delete>
 	
 </mapper>
